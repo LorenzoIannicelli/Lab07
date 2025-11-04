@@ -14,11 +14,17 @@ class Controller:
         self._view = view
 
         # Variabili per memorizzare le selezioni correnti
-        self.museo_selezionato = None
-        self.epoca_selezionata = None
+        self._museo_selezionato = None
+        self._epoca_selezionata = None
 
     # POPOLA DROPDOWN
-    # TODO
+    def handler_dd_museo_change(self, e):
+        if self._museo_selezionato is None :
+            self._museo_selezionato = self._view._dd_museo.value
+
+    def handler_dd_epoca_change(self, e):
+        if self._epoca_selezionata is None :
+            self._epoca_selezionata = self._view._dd_epoca.value
 
     # CALLBACKS DROPDOWN
     # TODO

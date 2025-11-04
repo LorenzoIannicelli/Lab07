@@ -20,10 +20,11 @@ class Model:
 
     def get_epoche(self):
         """Restituisce la lista di tutte le epoche."""
-        # TODO
+        list_epoche = ArtefattoDAO.read_epoche()
+        return list_epoche
 
     # --- MUSEI ---
     def get_musei(self):
         """ Restituisce la lista di tutti i musei."""
-        # TODO
-
+        list_musei = MuseoDAO.read_musei()
+        return list_musei
