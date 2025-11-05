@@ -32,24 +32,6 @@ class View:
     def update(self):
         self.page.update()
 
-    def crea_opzioni_dd_museo(self, lista_musei):
-        options = [ft.dropdown.Option(None, 'Nessun filtro')]
-        for museo in lista_musei:
-            options.append(
-                ft.dropdown.Option(key = museo.id, text = museo.nome)
-            )
-
-        return options
-
-    def crea_opzioni_dd_epoche(self, list_epoche) :
-        options = [ft.dropdown.Option(None, 'Nessun filtro')]
-        for epoca in list_epoche:
-            options.append(
-                ft.dropdown.Option(key = epoca.id, text = epoca.id)
-            )
-
-        return options
-
     def load_interface(self):
         """ Crea e aggiunge gli elementi di UI alla pagina e la aggiorna. """
         # --- Sezione 1: Intestazione ---
@@ -58,20 +40,23 @@ class View:
         # --- Sezione 2: Filtraggio ---
         list_musei = Model.get_musei()
         self._dd_museo = ft.Dropdown(label = 'Museo',
-                                     options = self.crea_opzioni_dd_museo(list_musei),
+                                     options = self._controller.crea_opzioni_dd_museo(list_musei),
                                      width = 200,
                                      hint_text = 'Seleziona il museo',
                                      on_change = self._controller.handler_dd_museo_change)
 
         list_epoche = Model.get_epoche()
         self._dd_epoca = ft.Dropdown(label = 'Epoca',
-                                     options = self.crea_opzioni_dd_epoche(list_epoche),
+                                     options = self._controller.crea_opzioni_dd_epoche(list_epoche),
                                      width=200,
                                      hint_text="Seleziona l'epoca",
                                      on_change=self._controller.handler_dd_epoca_change)
 
         # Sezione 3: Artefatti
-        # TODO
+        self.listview_artefatti = ft.ListView(expand = True, spacing = 10, padding = 10)
+
+        self.btn_mostra_artefatti = ft.ElevatedButton(text="Mostra Artefatti",
+                                                 on_click = self._controller.handler_filtra_artefatti)
 
         # --- Toggle Tema ---
         self.toggle_cambia_tema = ft.Switch(label="Tema scuro", value=True, on_change=self.cambia_tema)
@@ -87,7 +72,11 @@ class View:
             # Sezione 2: Filtraggio
             ft.Row(controls = [self._dd_museo, self._dd_epoca],
                    alignment = ft.MainAxisAlignment.CENTER),
-            ft.Divider()
+            ft.Divider(),
+
+            self.btn_mostra_artefatti,
+            self.listview_artefatti,
+
 
             # Sezione 3: Artefatti
             # TODO

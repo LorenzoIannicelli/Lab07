@@ -12,7 +12,7 @@ class ArtefattoDAO:
 
     @staticmethod
     def read_epoche():
-        results = []
+        results = set()
         cnx = ConnessioneDB.get_connection()
         if cnx is None:
             print("No database connected")
@@ -24,8 +24,9 @@ class ArtefattoDAO:
 
             for row in cursor :
                 artefatto = Artefatto(row['id'], row['nome'], row['tipologia'], row['epoca'], row['id_museo'])
-                results.append(artefatto.epoca)
+                results.add(artefatto.epoca)
 
+        results = list(results)
         cursor.close()
         cnx.close()
 
