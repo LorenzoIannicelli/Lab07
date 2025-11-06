@@ -12,24 +12,34 @@ class Model:
     def __init__(self):
         self._museo_dao = MuseoDAO()
         self._artefatto_dao = ArtefattoDAO()
+        self._lista_musei = []  # forse superflua
+        self._lista_artefatti = []
 
     # --- ARTEFATTI ---
     def get_artefatti_filtrati(self, museo:str, epoca:str):
         """Restituisce la lista di tutti gli artefatti filtrati per museo e/o epoca (filtri opzionali)."""
-        list_artefatti = []
+        #result = []
+        if museo == 'Nessun filtro' and epoca == 'Nessun filtro' :
+            return self._lista_artefatti
+        elif museo == 'Nessun filtro'  :
+            return [artefatto for artefatto in self._lista_artefatti if artefatto.epoca == epoca]
+        elif epoca == 'Nessun filtro' :
+            return [artefatto for artefatto in self._lista_artefatti if artefatto.id_museo == museo]
+        else :
+            return [artefatto for artefatto in self._lista_artefatti if artefatto.id_museo == museo and artefatto.epoca == epoca]
 
-        # SONO BLOCCATO IN QUESTO PUNTO, NON SO DOVE RECUPERARE GLI ARTEFATTI
-
-
-    @staticmethod
-    def get_epoche():
+    def get_epoche(self):
         """Restituisce la lista di tutte le epoche."""
-        list_epoche = ArtefattoDAO.read_epoche()
-        return list_epoche
+        list_epoche = set()
+        self._lista_artefatti = self._artefatto_dao.read_artefatti()
+        #print(self._lista_artefatti) \\ NON è vuota
+        for artefatto in self._lista_artefatti:
+            list_epoche.add(artefatto.epoca)
+
+        return list(sorted(list_epoche))
 
     # --- MUSEI ---
-    @staticmethod
-    def get_musei():
+    def get_musei(self):
         """ Restituisce la lista di tutti i musei."""
-        list_musei = MuseoDAO.read_musei()
-        return list_musei
+        self._lista_musei = self._museo_dao.read_musei()
+        return self._lista_musei

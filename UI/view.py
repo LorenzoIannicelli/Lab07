@@ -21,7 +21,7 @@ class View:
         self.alert = AlertManager(page)
 
         # Controller
-        self._controllercontroller = None
+        self._controller = None
 
     def show_alert(self, messaggio):
         self.alert.show_alert(messaggio)
@@ -38,19 +38,17 @@ class View:
         self.txt_titolo = ft.Text(value="Musei di Torino", size=38, weight=ft.FontWeight.BOLD)
 
         # --- Sezione 2: Filtraggio ---
-        list_musei = Model.get_musei()
         self._dd_museo = ft.Dropdown(label = 'Museo',
-                                     options = self._controller.crea_opzioni_dd_museo(list_musei),
-                                     width = 200,
+                                     options = self._controller.crea_opzioni_dd_museo(),
+                                     width = 400,
                                      hint_text = 'Seleziona il museo',
                                      on_change = self._controller.handler_dd_museo_change)
 
-        list_epoche = Model.get_epoche()
         self._dd_epoca = ft.Dropdown(label = 'Epoca',
-                                     options = self._controller.crea_opzioni_dd_epoche(list_epoche),
-                                     width=200,
-                                     hint_text="Seleziona l'epoca",
-                                     on_change=self._controller.handler_dd_epoca_change)
+                                     options = self._controller.crea_opzioni_dd_epoche(),
+                                     width = 200,
+                                     hint_text = "Seleziona l'epoca",
+                                     on_change = self._controller.handler_dd_epoca_change)
 
         # Sezione 3: Artefatti
         self.listview_artefatti = ft.ListView(expand = True, spacing = 10, padding = 10)
@@ -74,12 +72,9 @@ class View:
                    alignment = ft.MainAxisAlignment.CENTER),
             ft.Divider(),
 
-            self.btn_mostra_artefatti,
-            self.listview_artefatti,
-
-
             # Sezione 3: Artefatti
-            # TODO
+            self.btn_mostra_artefatti,
+            self.listview_artefatti
         )
 
         self.page.scroll = "adaptive"
