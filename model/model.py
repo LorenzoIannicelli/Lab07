@@ -14,11 +14,12 @@ class Model:
         self._artefatto_dao = ArtefattoDAO()
         self._lista_musei = []  # forse superflua
         self._lista_artefatti = []
+        self._lista_artefatti_filtrati = []
 
     # --- ARTEFATTI ---
     def get_artefatti_filtrati(self, museo:str, epoca:str):
         """Restituisce la lista di tutti gli artefatti filtrati per museo e/o epoca (filtri opzionali)."""
-        #result = []
+
         if museo == 'Nessun filtro' and epoca == 'Nessun filtro' :
             return self._lista_artefatti
         elif museo == 'Nessun filtro'  :
@@ -27,6 +28,10 @@ class Model:
             return [artefatto for artefatto in self._lista_artefatti if artefatto.id_museo == museo]
         else :
             return [artefatto for artefatto in self._lista_artefatti if artefatto.id_museo == museo and artefatto.epoca == epoca]
+
+        '''self._lista_artefatti_filtrati = self._artefatto_dao.read_artefatti_filtrati(museo, epoca)
+
+        return self._lista_artefatti_filtrati'''
 
     def get_epoche(self):
         """Restituisce la lista di tutte le epoche."""
