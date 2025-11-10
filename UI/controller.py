@@ -15,8 +15,8 @@ class Controller:
         self._view = view
 
         # Variabili per memorizzare le selezioni correnti
-        self._museo_selezionato = None
-        self._epoca_selezionata = None
+        self._museo_selezionato = ''
+        self._epoca_selezionata = ''
 
     # POPOLA DROPDOWN
     def get_lista_musei(self):
@@ -27,7 +27,7 @@ class Controller:
 
     def crea_opzioni_dd_museo(self):
         lista_musei = self.get_lista_musei()
-        options = [ft.dropdown.Option('Nessun filtro', 'Nessun filtro')]
+        options = [ft.dropdown.Option('NULL', 'Nessun filtro')]
         for museo in lista_musei:
             options.append(
                 ft.dropdown.Option(key = museo.id, text = museo.nome)
@@ -37,7 +37,7 @@ class Controller:
 
     def crea_opzioni_dd_epoche(self) :
         list_epoche = self.get_lista_epoche()
-        options = [ft.dropdown.Option('Nessun filtro', 'Nessun filtro')]
+        options = [ft.dropdown.Option('NULL', 'Nessun filtro')]
         for epoca in list_epoche:
             options.append(
                 ft.dropdown.Option(key = epoca, text = epoca)
@@ -49,17 +49,17 @@ class Controller:
     def handler_dd_museo_change(self, e):
         self._museo_selezionato = self._view._dd_museo.value
 
-        print('museo cambiato', self._museo_selezionato)
+        print('museo cambiato', self._museo_selezionato, 'tipo: ', type(self._museo_selezionato))
 
     def handler_dd_epoca_change(self, e):
         self._epoca_selezionata = self._view._dd_epoca.value
 
-        #print('epoca cambiata', self._epoca_selezionata)
+        print('epoca cambiata', self._epoca_selezionata, 'tipo: ', type(self._epoca_selezionata))
 
     # AZIONE: MOSTRA ARTEFATTI
 
     def handler_filtra_artefatti(self, e):
-        if self._museo_selezionato is None or self._epoca_selezionata is None :
+        if self._museo_selezionato == '' or self._epoca_selezionata == '' :
             alt = AlertManager(self._view.page)
             alt.show_alert('Selezionare opzioni per il museo e/o epoca.\nÈ possibile selezionare "Nessun filtro".')
         else :
